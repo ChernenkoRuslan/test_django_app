@@ -49,7 +49,7 @@ jobs:
       env:
         DATABASE_URL: postgres://testuser:testpass@localhost:5432/testdb
         SECRET_KEY: ci-test-key
-      run: pytest
+      run: cd myapp && pytest
 
   build-and-push:
     needs: test
