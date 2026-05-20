@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import dj_database_url
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,12 +83,33 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://myuser:mypassword@localhost:5432/mydb',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgres://myuser:mypassword@localhost:5432/mydb',
+#         conn_max_age=600
+#     )
+# }
+
+# Определяем, запущены ли тесты (например, pytest)
+IS_TESTING = 'test' in sys.argv or 'pytest' in sys.modules
+
+# Выбираем базу данных
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default='postgres://myuser:mypassword@localhost:5432/mydb',
+            conn_max_age=600
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
