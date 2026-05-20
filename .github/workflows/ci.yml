@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 env:
-  DOCKER_IMAGE: yourdockerhubuser/myapp   # замени на свой
+  DOCKER_IMAGE: chernenkoruslan/myapp
 
 jobs:
   test:
